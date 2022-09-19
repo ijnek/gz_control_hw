@@ -48,10 +48,11 @@ hardware_interface::CallbackReturn GzHw::on_init(
 
   this->dataPtr = std::make_unique<GzHwPrivate>();
 
-  for (const auto & joint : info.joints)
-  {
+  for (const auto & joint : info.joints) {
     Joint j;
     j.name = joint.name;
+    j.position_state = std::numeric_limits<double>::quiet_NaN();
+    j.position_command = std::numeric_limits<double>::quiet_NaN();
     this->dataPtr->joints.push_back(j);
   }
 
