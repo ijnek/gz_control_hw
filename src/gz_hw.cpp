@@ -36,7 +36,8 @@ public:
   std::string name;
   JointValue state;
   JointValue command;
-  ignition::transport::Node::Publisher publisher;
+  ignition::transport::Node::Publisher pub_cmd_pos;
+  ignition::transport::Node::Publisher pub_cmd_vel;
 };
 
 class GzHwPrivate
@@ -102,13 +103,15 @@ hardware_interface::CallbackReturn GzHw::on_init(
     j.name = joint.name;
     j.state.position = std::numeric_limits<double>::quiet_NaN();
     j.command.position = std::numeric_limits<double>::quiet_NaN();
-    j.publisher = this->dataPtr->node.Advertise<ignition::msgs::Double>(
+    j.pub_cmd_pos = this->dataPtr->node.Advertise<ignition::msgs::Double>(
       "/model/" + robot_name + "/joint/" + joint.name + "/0/cmd_pos");
+    j.pub_cmd_vel = this->dataPtr->node.Advertise<ignition::msgs::Double>(
+      "/model/" + robot_name + "/joint/" + joint.name + "/cmd_vel");
     this->dataPtr->joints.push_back(j);
   }
 
   this->dataPtr->node.Subscribe(
-      joint_states_ign_topic, &GzHwPrivate::jointStateCallback, this->dataPtr.get());
+    joint_states_ign_topic, &GzHwPrivate::jointStateCallback, this->dataPtr.get());
 
   return hardware_interface::CallbackReturn::SUCCESS;
 }
@@ -180,10 +183,32 @@ hardware_interface::return_type GzHw::write(
   const rclcpp::Time & /*time*/,
   const rclcpp::Duration & /*period*/)
 {
-  for (auto & joint : this->dataPtr->joints) {
-    ignition::msgs::Double msg;
-    msg.set_data(joint.command.position);
-    joint.publisher.Publish(msg);
+  auto joints = this->dataPtr->joints;
+
+  if (std::any_of(
+      joints.cbegin(), joints.cend(), [](auto j) {return j.command.velocity != 0.0;}))
+  {
+    // Velocity control
+    for (auto & joint : joints) {
+      ignition::msgs::Double msg;
+      msg.set_data(joint.command.velocity);
+      joint.pub_cmd_vel.Publish(msg);
+    }
+  } else if (std::any_of(
+      joints.cbegin(), joints.cend(), [](auto j) {return j.command.effort != 0.0;}))
+  {
+    // Effort control
+    RCLCPP_ERROR(rclcpp::get_logger("gz_hw"), "Effort control is not implemented");
+    return hardware_interface::return_type::ERROR;
+  } else if (std::any_of(
+      joints.cbegin(), joints.cend(), [](auto j) {return j.command.effort != 0.0;}))
+  {
+    // Position control
+    for (auto & joint : joints) {
+      ignition::msgs::Double msg;
+      msg.set_data(joint.command.position);
+      joint.pub_cmd_pos.Publish(msg);
+    }
   }
 
   return hardware_interface::return_type::OK;
