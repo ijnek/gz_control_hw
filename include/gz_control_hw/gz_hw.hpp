@@ -21,6 +21,9 @@
 namespace gz_control_hw
 {
 
+// Forward Declaration
+class GzHwPrivate;
+
 class GzHw : public hardware_interface::SystemInterface
 {
 public:
@@ -53,6 +56,9 @@ public:
   GZ_CONTROL_HW_PUBLIC
   hardware_interface::return_type write(
     const rclcpp::Time & time, const rclcpp::Duration & period) override;
+
+private:
+  std::unique_ptr<GzHwPrivate> dataPtr;
 };
 
 }  // namespace gz_control_hw
