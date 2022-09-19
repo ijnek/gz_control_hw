@@ -1,0 +1,7 @@
+<library path="gz_control_hw">
+  <class name="gz_control_hw/GzHw"
+         type="gz_control_hw::GzHw"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>Hardware Interface for Ignition Gazebo and ROS2 Control</description>
+  </class>
+</library>
