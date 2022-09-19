@@ -16,6 +16,8 @@
 
 #include "gz_control_hw/gz_hw.hpp"
 #include "hardware_interface/types/hardware_interface_type_values.hpp"
+#include "ignition/transport/Node.hh"
+#include "rclcpp/rclcpp.hpp"
 
 namespace gz_control_hw
 {
@@ -26,6 +28,7 @@ public:
   std::string name;
   double position_state;
   double position_command;
+  ignition::transport::Node::Publisher publisher;
 };
 
 class GzHwPrivate
@@ -35,6 +38,7 @@ public:
   ~GzHwPrivate() = default;
 
   std::vector<Joint> joints;
+  ignition::transport::Node node;
 };
 
 hardware_interface::CallbackReturn GzHw::on_init(
@@ -53,6 +57,16 @@ hardware_interface::CallbackReturn GzHw::on_init(
     j.name = joint.name;
     j.position_state = std::numeric_limits<double>::quiet_NaN();
     j.position_command = std::numeric_limits<double>::quiet_NaN();
+
+    try {
+      std::string robot_name = info.hardware_parameters.at("robot_name");
+      j.publisher = this->dataPtr->node.Advertise<ignition::msgs::Double>(
+        "/model/" + robot_name + "/joint/" + joint.name + "/0/cmd_pos");
+    } catch(std::out_of_range&) {
+      RCLCPP_ERROR(rclcpp::get_logger("gz_hw"), "<param name=\"robot_name\">my_robot</param> not found under <hardware> under <ros2_control>");
+      return hardware_interface::CallbackReturn::ERROR;
+    }
+
     this->dataPtr->joints.push_back(j);
   }
 
@@ -114,6 +128,12 @@ hardware_interface::return_type GzHw::write(
   const rclcpp::Time & /*time*/,
   const rclcpp::Duration & /*period*/)
 {
+  for (auto & joint : this->dataPtr->joints) {
+    ignition::msgs::Double msg;
+    msg.set_data(joint.position_command);
+    joint.publisher.Publish(msg);
+  }
+
   return hardware_interface::return_type::OK;
 }
 
