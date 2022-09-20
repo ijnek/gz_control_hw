@@ -17,6 +17,9 @@
 
 #include "gz_control_hw/visibility_control.hpp"
 #include "hardware_interface/system_interface.hpp"
+#include "rclcpp/time.hpp"
+#include "rclcpp/duration.hpp"
+#include "rclcpp_lifecycle/state.hpp"
 
 namespace gz_control_hw
 {
