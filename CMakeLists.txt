@@ -9,7 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
-find_package(ros_ign_bridge REQUIRED)
+find_package(ros_gz_bridge REQUIRED)
 
 # Edifice
 if(("$ENV{GZ_VERSION}" STREQUAL "edifice") OR ("$ENV{IGNITION_VERSION}" STREQUAL "edifice"))
@@ -54,7 +54,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE include)
 ament_target_dependencies(${PROJECT_NAME}
   hardware_interface
   pluginlib
-  ros_ign_bridge)
+  ros_gz_bridge)
 
 target_link_libraries(${PROJECT_NAME}
   ${GZ_TARGET_PREFIX}-transport${GZ_TRANSPORT_VER}::core)
