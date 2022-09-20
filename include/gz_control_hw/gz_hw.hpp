@@ -31,11 +31,11 @@ class GzHw : public hardware_interface::SystemInterface
 {
 public:
   GZ_CONTROL_HW_PUBLIC
-  hardware_interface::CallbackReturn on_init(
+  CallbackReturn on_init(
     const hardware_interface::HardwareInfo & info) override;
 
   GZ_CONTROL_HW_PUBLIC
-  hardware_interface::CallbackReturn on_configure(
+  CallbackReturn on_configure(
     const rclcpp_lifecycle::State & previous_state) override;
 
   GZ_CONTROL_HW_PUBLIC
@@ -45,20 +45,19 @@ public:
   std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
 
   GZ_CONTROL_HW_PUBLIC
-  hardware_interface::CallbackReturn on_activate(
+  CallbackReturn on_activate(
     const rclcpp_lifecycle::State & previous_state) override;
 
   GZ_CONTROL_HW_PUBLIC
-  hardware_interface::CallbackReturn on_deactivate(
+  CallbackReturn on_deactivate(
     const rclcpp_lifecycle::State & previous_state) override;
 
   GZ_CONTROL_HW_PUBLIC
-  hardware_interface::return_type read(
-    const rclcpp::Time & time, const rclcpp::Duration & period) override;
+  hardware_interface::return_type read() override;
+
 
   GZ_CONTROL_HW_PUBLIC
-  hardware_interface::return_type write(
-    const rclcpp::Time & time, const rclcpp::Duration & period) override;
+  hardware_interface::return_type write() override;
 
 private:
   std::unique_ptr<GzHwPrivate> dataPtr;

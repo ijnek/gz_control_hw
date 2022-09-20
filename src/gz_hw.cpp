@@ -64,13 +64,13 @@ public:
   ignition::transport::Node node;
 };
 
-hardware_interface::CallbackReturn GzHw::on_init(
+CallbackReturn GzHw::on_init(
   const hardware_interface::HardwareInfo & info)
 {
   if (hardware_interface::SystemInterface::on_init(info) !=
-    hardware_interface::CallbackReturn::SUCCESS)
+    CallbackReturn::SUCCESS)
   {
-    return hardware_interface::CallbackReturn::ERROR;
+    return CallbackReturn::ERROR;
   }
 
   // Read robot_name hardware parameter
@@ -81,7 +81,7 @@ hardware_interface::CallbackReturn GzHw::on_init(
     RCLCPP_ERROR(
       rclcpp::get_logger("gz_hw"),
       "<param name=\"robot_name\">my_robot</param> not found under <hardware> under <ros2_control>");
-    return hardware_interface::CallbackReturn::ERROR;
+    return CallbackReturn::ERROR;
   }
 
   // Read joint_states_ign_topic hardware parameter
@@ -93,7 +93,7 @@ hardware_interface::CallbackReturn GzHw::on_init(
       rclcpp::get_logger("gz_hw"),
       "<param name=\"joint_states_ign_topic\">my_topic</param> not found under <hardware> under "
       "<ros2_control>");
-    return hardware_interface::CallbackReturn::ERROR;
+    return CallbackReturn::ERROR;
   }
 
   this->dataPtr = std::make_unique<GzHwPrivate>();
@@ -113,13 +113,13 @@ hardware_interface::CallbackReturn GzHw::on_init(
   this->dataPtr->node.Subscribe(
     joint_states_ign_topic, &GzHwPrivate::jointStateCallback, this->dataPtr.get());
 
-  return hardware_interface::CallbackReturn::SUCCESS;
+  return CallbackReturn::SUCCESS;
 }
 
-hardware_interface::CallbackReturn GzHw::on_configure(
+CallbackReturn GzHw::on_configure(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  return hardware_interface::CallbackReturn::SUCCESS;
+  return CallbackReturn::SUCCESS;
 }
 
 std::vector<hardware_interface::StateInterface> GzHw::export_state_interfaces()
@@ -160,28 +160,24 @@ std::vector<hardware_interface::CommandInterface> GzHw::export_command_interface
   return command_interfaces;
 }
 
-hardware_interface::CallbackReturn GzHw::on_activate(
+CallbackReturn GzHw::on_activate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  return hardware_interface::CallbackReturn::SUCCESS;
+  return CallbackReturn::SUCCESS;
 }
 
-hardware_interface::CallbackReturn GzHw::on_deactivate(
+CallbackReturn GzHw::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  return hardware_interface::CallbackReturn::SUCCESS;
+  return CallbackReturn::SUCCESS;
 }
 
-hardware_interface::return_type GzHw::read(
-  const rclcpp::Time & /*time*/,
-  const rclcpp::Duration & /*period*/)
+hardware_interface::return_type GzHw::read()
 {
   return hardware_interface::return_type::OK;
 }
 
-hardware_interface::return_type GzHw::write(
-  const rclcpp::Time & /*time*/,
-  const rclcpp::Duration & /*period*/)
+hardware_interface::return_type GzHw::write()
 {
   auto joints = this->dataPtr->joints;
 
