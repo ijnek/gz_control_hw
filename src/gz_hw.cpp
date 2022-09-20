@@ -83,14 +83,9 @@ CallbackReturn GzHw::on_init(
   } catch (std::out_of_range &) {
     RCLCPP_ERROR(
       rclcpp::get_logger("gz_hw"),
-<<<<<<< HEAD
-      "<param name=\"robot_name\">my_robot</param> not found under <hardware> under <ros2_control>");
-    return CallbackReturn::ERROR;
-=======
       "<param name=\"robot_name\">my_robot</param> not found under <hardware> under "
       "<ros2_control>");
-    return hardware_interface::CallbackReturn::ERROR;
->>>>>>> fc7f50a (add changes to pass test)
+    return CallbackReturn::ERROR;
   }
 
   // Read joint_states_ign_topic hardware parameter
