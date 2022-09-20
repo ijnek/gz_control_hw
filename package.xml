@@ -14,7 +14,7 @@
   <depend>pluginlib</depend>
   <depend>rclcpp</depend>
   <depend>rclcpp_lifecycle</depend>
-  <depend>ros_ign_bridge</depend>
+  <depend>ros_gz_bridge</depend>
 
   <!-- Garden -->
   <depend condition="$GZ_VERSION == garden or $IGNITION_VERSION == garden">gz-msgs9</depend>
