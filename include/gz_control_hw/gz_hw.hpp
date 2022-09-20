@@ -15,6 +15,9 @@
 #ifndef GZ_CONTROL_HW__GZ_HW_HPP_
 #define GZ_CONTROL_HW__GZ_HW_HPP_
 
+#include <memory>
+#include <vector>
+
 #include "gz_control_hw/visibility_control.hpp"
 #include "hardware_interface/system_interface.hpp"
 #include "rclcpp/time.hpp"
