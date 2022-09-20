@@ -197,7 +197,7 @@ hardware_interface::return_type GzHw::write()
     RCLCPP_ERROR(rclcpp::get_logger("gz_hw"), "Effort control is not implemented");
     return hardware_interface::return_type::ERROR;
   } else if (std::any_of(
-      joints.cbegin(), joints.cend(), [](auto j) {return j.command.effort != 0.0;}))
+      joints.cbegin(), joints.cend(), [](auto j) {return j.command.position != 0.0;}))
   {
     // Position control
     for (auto & joint : joints) {
