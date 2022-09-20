@@ -83,8 +83,14 @@ CallbackReturn GzHw::on_init(
   } catch (std::out_of_range &) {
     RCLCPP_ERROR(
       rclcpp::get_logger("gz_hw"),
+<<<<<<< HEAD
       "<param name=\"robot_name\">my_robot</param> not found under <hardware> under <ros2_control>");
     return CallbackReturn::ERROR;
+=======
+      "<param name=\"robot_name\">my_robot</param> not found under <hardware> under "
+      "<ros2_control>");
+    return hardware_interface::CallbackReturn::ERROR;
+>>>>>>> fc7f50a (add changes to pass test)
   }
 
   // Read joint_states_ign_topic hardware parameter
@@ -184,24 +190,25 @@ hardware_interface::return_type GzHw::write()
 {
   auto joints = this->dataPtr->joints;
 
-  if (std::any_of(
-      joints.cbegin(), joints.cend(), [](auto j) {return j.command.velocity != 0.0;}))
-  {
+  bool receivedVelocityCmd = std::any_of(
+    joints.cbegin(), joints.cend(), [](auto j) {return j.command.velocity != 0.0;});
+  bool receivedEffortCmd = std::any_of(
+    joints.cbegin(), joints.cend(), [](auto j) {return j.command.effort != 0.0;});
+  bool receivedPositionCmd = std::any_of(
+    joints.cbegin(), joints.cend(), [](auto j) {return j.command.position != 0.0;});
+
+  if (receivedVelocityCmd) {
     // Velocity control
     for (auto & joint : joints) {
       ignition::msgs::Double msg;
       msg.set_data(joint.command.velocity);
       joint.pub_cmd_vel.Publish(msg);
     }
-  } else if (std::any_of(
-      joints.cbegin(), joints.cend(), [](auto j) {return j.command.effort != 0.0;}))
-  {
+  } else if (receivedEffortCmd) {
     // Effort control
     RCLCPP_ERROR(rclcpp::get_logger("gz_hw"), "Effort control is not implemented");
     return hardware_interface::return_type::ERROR;
-  } else if (std::any_of(
-      joints.cbegin(), joints.cend(), [](auto j) {return j.command.position != 0.0;}))
-  {
+  } else if (receivedPositionCmd) {
     // Position control
     for (auto & joint : joints) {
       ignition::msgs::Double msg;
