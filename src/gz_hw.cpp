@@ -51,7 +51,7 @@ public:
   void jointStateCallback(const ignition::msgs::Model & ignMsg)
   {
     sensor_msgs::msg::JointState jointState;
-    ros_gz_bridge::convert_ign_to_ros(ignMsg, jointState);
+    ros_gz_bridge::convert_gz_to_ros(ignMsg, jointState);
     for (auto & joint : joints) {
       auto it = find(jointState.name.begin(), jointState.name.end(), joint.name);
       if (it != jointState.name.end()) {
