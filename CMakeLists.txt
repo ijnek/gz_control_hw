@@ -12,7 +12,7 @@ find_package(pluginlib REQUIRED)
 find_package(ros_ign_bridge REQUIRED)
 
 # Edifice
-if("$ENV{IGNITION_VERSION}" STREQUAL "edifice")
+if(("$ENV{GZ_VERSION}" STREQUAL "edifice") OR ("$ENV{IGNITION_VERSION}" STREQUAL "edifice"))
   find_package(ignition-transport10 REQUIRED)
   set(GZ_TRANSPORT_VER ${ignition-transport10_VERSION_MAJOR})
 
@@ -23,7 +23,7 @@ if("$ENV{IGNITION_VERSION}" STREQUAL "edifice")
 
   message(STATUS "Compiling against Ignition Edifice")
 # Garden
-elseif("$ENV{IGNITION_VERSION}" STREQUAL "garden")
+elseif(("$ENV{GZ_VERSION}" STREQUAL "garden") OR ("$ENV{IGNITION_VERSION}" STREQUAL "garden"))
   find_package(gz-transport12 REQUIRED)
   set(GZ_TRANSPORT_VER ${gz-transport12_VERSION_MAJOR})
 
