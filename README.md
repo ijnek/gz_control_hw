@@ -5,6 +5,8 @@
 
 See [ijnek/gz_control_hw_demo](https://github.com/ijnek/gz_control_hw_demo) for how to use this package.
 
+# Supported Combinations
+
 ROS 2 version | Gazebo version | Branch
 -- | -- | --
 Galactic | Edifice | [galactic](https://github.com/ijnek/gz_control_hw/tree/galactic)
@@ -14,3 +16,60 @@ Humble | Garden (not released) | [rolling](https://github.com/ijnek/gz_control_h
 Rolling | Edifice | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 Rolling | Fortress | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 Rolling | Garden (not released) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
+
+## Source Installation
+
+Install a Gazebo version that is supported on your platform from the *Supported Combinations* table above.
+
+If you have selected a Gazebo version that is not the default version for your distro, then set the `GZ_VERSION` environment variable to the Gazebo version you'd like to compile against. For example:
+
+    export GZ_VERSION=edifice
+
+**If you're using a version of Gazebo that isn't the default for your ROS distribution, you must [install ``ros_gz`` from source](https://github.com/gazebosim/ros_gz/tree/galactic) too.**
+
+> You only need to set this variable when compiling, not when running.
+
+#### Compile ros_ign
+
+The following steps are for Linux and OSX.
+
+1. Create a colcon workspace:
+
+    ```sh
+    # Setup the workspace
+    mkdir -p ~/ws/src
+    cd ~/ws/src
+
+    # Source ROS distro's setup.bash (replace rolling with your distro)
+    source /opt/ros/rolling/setup.bash
+
+    # Download needed software
+    git clone https://github.com/ijnek/gz_control_hw.git -b $ROS_DISTRO
+    ```
+
+1. Install dependencies (this may also install Ignition):
+
+    ```sh
+    cd ~/ws
+    rosdep install --from-paths src --ignore-src --default-yes
+    ```
+
+    > If `rosdep` fails to install Ignition libraries and you have not installed them before, please follow [Ignition installation instructions](https://ignitionrobotics.org/docs/latest/install).
+
+1. Build the workspace:
+
+    ```sh
+    # Source ROS distro's setup.bash
+    source /opt/ros/$ROS_DISTRO/setup.bash
+
+    # Build and install into workspace
+    cd ~/ws
+    colcon build
+    ```
+
+1. Source the workspace:
+
+    ```sh
+    # In a new terminal you want to call gz_control_hw, run
+    source ~/ws/src/local_setup.bash
+    ```
