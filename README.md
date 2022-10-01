@@ -21,7 +21,7 @@ Rolling | Garden (not released) | [rolling](https://github.com/ijnek/gz_control_
 
 Install a Gazebo version that is supported on your platform from the *Supported Combinations* table above.
 
-If you have selected a Gazebo version that is not the default version for your distro, then set the `GZ_VERSION` environment variable to the Gazebo version you'd like to compile against. For example:
+**If you have selected a Gazebo version that is not the default version for your distro**, then set the `GZ_VERSION` environment variable to the Gazebo version you'd like to compile against. For example:
 
     export GZ_VERSION=edifice
 
@@ -43,8 +43,9 @@ The following steps are for Linux and OSX.
     # Source ROS distro's setup.bash (replace rolling with your distro)
     source /opt/ros/rolling/setup.bash
 
-    # Download needed software
-    git clone https://github.com/ijnek/gz_control_hw.git -b $ROS_DISTRO
+    # Clone repoitory (**select one** from below, depending on your ROS 2 distro)
+    git clone https://github.com/ijnek/gz_control_hw.git -b galactic  # Galactic
+    git clone https://github.com/ijnek/gz_control_hw.git -b rolling  # Humble, Rolling
     ```
 
 1. Install dependencies (this may also install Ignition):
@@ -59,9 +60,6 @@ The following steps are for Linux and OSX.
 1. Build the workspace:
 
     ```sh
-    # Source ROS distro's setup.bash
-    source /opt/ros/$ROS_DISTRO/setup.bash
-
     # Build workspace
     cd ~/ws
     colcon build
