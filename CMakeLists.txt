@@ -11,39 +11,16 @@ find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(ros_ign_bridge REQUIRED)
 
-# Edifice
-if(("$ENV{GZ_VERSION}" STREQUAL "edifice") OR ("$ENV{IGNITION_VERSION}" STREQUAL "edifice"))
-  find_package(ignition-transport10 REQUIRED)
-  set(GZ_TRANSPORT_VER ${ignition-transport10_VERSION_MAJOR})
-
-  find_package(ignition-msgs7 REQUIRED)
-  set(GZ_MSGS_VER ${ignition-msgs7_VERSION_MAJOR})
-
-  set(GZ_TARGET_PREFIX ignition)
-
-  message(STATUS "Compiling against Ignition Edifice")
-# Garden
-elseif(("$ENV{GZ_VERSION}" STREQUAL "garden") OR ("$ENV{IGNITION_VERSION}" STREQUAL "garden"))
-  find_package(gz-transport12 REQUIRED)
-  set(GZ_TRANSPORT_VER ${gz-transport12_VERSION_MAJOR})
-
-  find_package(gz-msgs9 REQUIRED)
-  set(GZ_MSGS_VER ${gz-msgs9_VERSION_MAJOR})
-
-  set(GZ_TARGET_PREFIX gz)
-
-  message(STATUS "Compiling against Gazebo Garden")
-# Default to Fortress
-else()
+# Fortress
+if("$ENV{GZ_VERSION}" STREQUAL "fortress")
   find_package(ignition-transport11 REQUIRED)
   set(GZ_TRANSPORT_VER ${ignition-transport11_VERSION_MAJOR})
-
-  find_package(ignition-msgs8 REQUIRED)
-  set(GZ_MSGS_VER ${ignition-msgs8_VERSION_MAJOR})
-
-  set(GZ_TARGET_PREFIX ignition)
-
   message(STATUS "Compiling against Ignition Fortress")
+# Edifice (default)
+else()
+  find_package(ignition-transport10 REQUIRED)
+  set(GZ_TRANSPORT_VER ${ignition-transport10_VERSION_MAJOR})
+  message(STATUS "Compiling against Ignition Edifice")
 endif()
 
 add_library(${PROJECT_NAME} SHARED
@@ -57,7 +34,7 @@ ament_target_dependencies(${PROJECT_NAME}
   ros_ign_bridge)
 
 target_link_libraries(${PROJECT_NAME}
-  ${GZ_TARGET_PREFIX}-transport${GZ_TRANSPORT_VER}::core)
+  ignition-transport${GZ_TRANSPORT_VER}::core)
 
 install(
   TARGETS ${PROJECT_NAME}
