@@ -10,12 +10,12 @@ See [ijnek/gz_control_hw_demo](https://github.com/ijnek/gz_control_hw_demo) for 
 
 ROS 2 version | Gazebo version | Branch
 -- | -- | --
-Galactic | Edifice | [galactic](https://github.com/ijnek/gz_control_hw/tree/galactic)
+Galactic | Edifice (default) | [galactic](https://github.com/ijnek/gz_control_hw/tree/galactic)
 Galactic | Fortress | [galactic](https://github.com/ijnek/gz_control_hw/tree/galactic)
-Humble | Fortress | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
+Humble | Fortress (default) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 Humble | Garden (not released) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 Rolling | Edifice | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
-Rolling | Fortress | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
+Rolling | Fortress (default) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 Rolling | Garden (not released) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 
 ## Source Installation
@@ -63,7 +63,7 @@ The following steps are for Linux and OSX.
     # Source ROS distro's setup.bash
     source /opt/ros/$ROS_DISTRO/setup.bash
 
-    # Build and install into workspace
+    # Build workspace
     cd ~/ws
     colcon build
     ```
@@ -71,6 +71,6 @@ The following steps are for Linux and OSX.
 1. Source the workspace:
 
     ```sh
-    # In a new terminal you want to call gz_control_hw, run
+    # In any new terminal you want to use gz_control_hw, first run
     source ~/ws/src/local_setup.bash
     ```
