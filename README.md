@@ -21,7 +21,7 @@ Rolling | Garden (not released) | [rolling](https://github.com/ijnek/gz_control_
 
 Install a Gazebo version that is supported on your platform from the *Supported Combinations* table above.
 
-If you have selected a Gazebo version that is not the default version for your distro, then set the `GZ_VERSION` environment variable to the Gazebo version you'd like to compile against. For example:
+**If you have selected a Gazebo version that is not the default version for your distro**, then set the `GZ_VERSION` environment variable to the Gazebo version you'd like to compile against. For example:
 
     export GZ_VERSION=edifice
 
