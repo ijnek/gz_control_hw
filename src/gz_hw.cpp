@@ -189,8 +189,6 @@ hardware_interface::return_type GzHw::write()
     joints.cbegin(), joints.cend(), [](auto j) {return j.command.velocity != 0.0;});
   bool receivedEffortCmd = std::any_of(
     joints.cbegin(), joints.cend(), [](auto j) {return j.command.effort != 0.0;});
-  bool receivedPositionCmd = std::any_of(
-    joints.cbegin(), joints.cend(), [](auto j) {return j.command.position != 0.0;});
 
   if (receivedVelocityCmd) {
     // Velocity control
@@ -203,7 +201,7 @@ hardware_interface::return_type GzHw::write()
     // Effort control
     RCLCPP_ERROR(rclcpp::get_logger("gz_hw"), "Effort control is not implemented");
     return hardware_interface::return_type::ERROR;
-  } else if (receivedPositionCmd) {
+  } else {
     // Position control
     for (auto & joint : joints) {
       ignition::msgs::Double msg;
