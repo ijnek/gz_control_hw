@@ -13,10 +13,10 @@ ROS 2 version | Gazebo version | Branch
 Galactic | Edifice (default) | [galactic](https://github.com/ijnek/gz_control_hw/tree/galactic)
 Galactic | Fortress | [galactic](https://github.com/ijnek/gz_control_hw/tree/galactic)
 Humble | Fortress (default) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
-Humble | Garden (not released) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
+Humble | Garden | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 Rolling | Edifice | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 Rolling | Fortress (default) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
-Rolling | Garden (not released) | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
+Rolling | Garden | [rolling](https://github.com/ijnek/gz_control_hw/tree/rolling)
 
 ## Source Installation
 
